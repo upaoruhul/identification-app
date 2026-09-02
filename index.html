@@ -1,0 +1,656 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>IDENTIFICATION</title>
+<link rel="manifest" href="./manifest.json">
+<meta name="theme-color" content="#16233F">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="IDENTIFICATION">
+<link rel="apple-touch-icon" href="./apple-touch-icon.png">
+<link rel="icon" href="./icon-192.png" type="image/png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+Bengali:wght@500;700&family=Noto+Sans+Bengali:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy: #16233F;
+    --navy-2: #1F345C;
+    --brass: #B98A34;
+    --brass-light: #E4C688;
+    --paper: #EDEAE1;
+    --card: #FFFFFF;
+    --ink: #22262B;
+    --ink-soft: #5B6472;
+    --line: #DCD7C9;
+    --danger: #A6402F;
+    --ok: #3E7A52;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    font-family:'Noto Sans Bengali','Noto Sans',sans-serif;
+    background:var(--paper);
+    color:var(--ink);
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+  }
+  #app{
+    width:100%;
+    max-width:430px;
+    min-height:100vh;
+    background:var(--paper);
+    position:relative;
+    overflow:hidden;
+  }
+
+  /* ---------- Header ---------- */
+  header{
+    background:linear-gradient(160deg,var(--navy) 0%,var(--navy-2) 100%);
+    color:#fff;
+    padding:28px 22px 22px;
+    position:relative;
+  }
+  header::after{
+    content:"";
+    position:absolute;
+    left:0;right:0;bottom:-1px;
+    height:14px;
+    background:var(--paper);
+    border-radius:18px 18px 0 0;
+  }
+  .brand{
+    display:flex;
+    align-items:center;
+    gap:10px;
+  }
+  .brand-mark{
+    width:38px;height:38px;
+    border:1.5px solid var(--brass-light);
+    border-radius:9px;
+    display:flex;align-items:center;justify-content:center;
+    flex-shrink:0;
+  }
+  .brand-mark svg{width:20px;height:20px;}
+  .brand h1{
+    font-family:'Noto Serif Bengali',serif;
+    font-weight:700;
+    font-size:19px;
+    letter-spacing:.4px;
+    margin:0;
+    line-height:1.3;
+  }
+  .brand p{
+    margin:2px 0 0;
+    font-size:12.5px;
+    color:#B9C2D6;
+  }
+  .back-row{
+    display:flex;align-items:center;gap:10px;
+    margin-bottom:14px;
+  }
+  .back-btn{
+    width:34px;height:34px;
+    border-radius:9px;
+    background:rgba(255,255,255,.1);
+    border:1px solid rgba(255,255,255,.18);
+    display:flex;align-items:center;justify-content:center;
+    cursor:pointer;
+    flex-shrink:0;
+  }
+  .back-btn svg{width:16px;height:16px;stroke:#fff;}
+  .detail-title h2{
+    font-family:'Noto Serif Bengali',serif;
+    font-size:17px;margin:0;font-weight:700;
+  }
+  .detail-title p{margin:1px 0 0;font-size:12px;color:#B9C2D6;}
+
+  /* ---------- Home / menu ---------- */
+  main{padding:20px 18px 90px;}
+  .section-label{
+    font-size:13px;
+    color:var(--ink-soft);
+    margin:4px 2px 12px;
+  }
+  .menu{
+    display:flex;
+    flex-direction:column;
+    gap:12px;
+  }
+  .menu-item{
+    background:var(--card);
+    border:1px solid var(--line);
+    border-radius:14px;
+    padding:14px 14px;
+    display:flex;
+    align-items:center;
+    gap:14px;
+    cursor:pointer;
+    transition:border-color .15s ease, transform .1s ease;
+  }
+  .menu-item:active{transform:scale(.98);}
+  .menu-item:hover{border-color:var(--brass);}
+  .menu-icon{
+    width:46px;height:46px;
+    border-radius:10px;
+    background:var(--navy);
+    display:flex;align-items:center;justify-content:center;
+    flex-shrink:0;
+  }
+  .menu-icon svg{width:24px;height:24px;stroke:var(--brass-light);}
+  .menu-body{flex:1;min-width:0;}
+  .menu-body h3{
+    margin:0 0 3px;
+    font-size:15px;
+    font-weight:600;
+  }
+  .menu-body p{
+    margin:0;
+    font-size:11.5px;
+  }
+  .status-pill{
+    display:inline-flex;
+    align-items:center;
+    gap:5px;
+    font-size:11px;
+    padding:2px 0;
+  }
+  .dot{width:6px;height:6px;border-radius:50%;}
+  .dot.full{background:var(--ok);}
+  .dot.partial{background:var(--brass);}
+  .dot.empty{background:#C7C1B3;}
+  .chevron{width:16px;height:16px;stroke:var(--ink-soft);flex-shrink:0;}
+
+  /* ---------- Detail view ---------- */
+  .side-card{
+    background:var(--card);
+    border:1px solid var(--line);
+    border-radius:14px;
+    padding:16px;
+    margin-bottom:14px;
+  }
+  .side-card h4{
+    margin:0 0 3px;
+    font-size:14px;
+    font-weight:600;
+  }
+  .side-card .hint{
+    margin:0 0 12px;
+    font-size:11.5px;
+    color:var(--ink-soft);
+  }
+  .drop{
+    border:1.5px dashed var(--line);
+    border-radius:12px;
+    background:#F7F5EF;
+    min-height:150px;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    gap:8px;
+    cursor:pointer;
+    overflow:hidden;
+    position:relative;
+  }
+  .drop.has-photo{
+    min-height:0;
+    display:block;
+  }
+  .drop img{
+    width:100%;
+    height:auto;
+    display:block;
+  }
+  .drop-empty svg{width:26px;height:26px;stroke:var(--ink-soft);}
+  .drop-empty span{font-size:12.5px;color:var(--ink-soft);}
+  .img-actions{
+    position:absolute;
+    top:8px;right:8px;
+    display:flex;gap:6px;
+    z-index:2;
+  }
+  .img-actions button{
+    width:30px;height:30px;
+    border-radius:8px;
+    border:none;
+    background:rgba(22,35,63,.82);
+    display:flex;align-items:center;justify-content:center;
+    cursor:pointer;
+  }
+  .img-actions button svg{width:15px;height:15px;stroke:#fff;}
+  .img-actions button.danger{background:rgba(166,64,47,.9);}
+  input[type=file]{display:none;}
+
+  .empty-state{
+    text-align:center;
+    padding:60px 20px;
+    color:var(--ink-soft);
+  }
+
+  #toast{
+    position:fixed;
+    left:50%;bottom:26px;
+    transform:translateX(-50%) translateY(20px);
+    background:var(--navy);
+    color:#fff;
+    padding:10px 18px;
+    border-radius:10px;
+    font-size:12.5px;
+    opacity:0;
+    pointer-events:none;
+    transition:opacity .2s ease, transform .2s ease;
+    max-width:80%;
+    text-align:center;
+    z-index:50;
+  }
+  #toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+
+  .loading-row{
+    display:flex;align-items:center;justify-content:center;
+    gap:8px;padding:30px 0;color:var(--ink-soft);font-size:12.5px;
+  }
+  .spinner{
+    width:14px;height:14px;
+    border:2px solid var(--line);
+    border-top-color:var(--brass);
+    border-radius:50%;
+    animation:spin .7s linear infinite;
+  }
+  @keyframes spin{to{transform:rotate(360deg);}}
+</style>
+</head>
+<body>
+<div id="app">
+
+  <header id="header"></header>
+  <main id="main"></main>
+  <div id="toast"></div>
+</div>
+
+<script>
+const CATEGORIES = [
+  { id:'nid', name:'ন্যাশনাল আইডি', sub:'জাতীয় পরিচয়পত্র', icon:'id' },
+  { id:'job', name:'জব আইডি', sub:'অফিস পরিচয়পত্র', icon:'job' },
+  { id:'dl',  name:'ড্রাইভিং লাইসেন্স', sub:'Driving Licence', icon:'dl' },
+  { id:'bike',name:'বাইক রেজিস্ট্রেশন', sub:'রেজিস্ট্রেশন সার্টিফিকেট', icon:'bike' },
+  { id:'atm', name:'ব্যাংক এটিএম কার্ড', sub:'ডেবিট / এটিএম কার্ড', icon:'atm' },
+];
+
+const ICONS = {
+  id:  `<rect x="3" y="6" width="18" height="12" rx="2"/><circle cx="8.5" cy="12" r="1.6"/><line x1="12.5" y1="10.2" x2="18" y2="10.2"/><line x1="12.5" y1="13.5" x2="18" y2="13.5"/>`,
+  job: `<rect x="4" y="8" width="16" height="11" rx="2"/><path d="M8 8V6a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><line x1="4" y1="13" x2="20" y2="13"/>`,
+  dl:  `<circle cx="12" cy="12" r="8.5"/><circle cx="12" cy="12" r="2.6"/><line x1="12" y1="4.3" x2="12" y2="7.8"/><line x1="12" y1="16.2" x2="12" y2="19.7"/><line x1="4.3" y1="12" x2="7.8" y2="12"/><line x1="16.2" y1="12" x2="19.7" y2="12"/>`,
+  bike:`<circle cx="6" cy="17" r="3"/><circle cx="18" cy="17" r="3"/><path d="M6 17 10 9h5l3 5"/><path d="M10 9 8.5 6h-2"/><line x1="13" y1="9" x2="18" y2="17"/>`,
+  atm: `<rect x="3" y="6" width="18" height="12" rx="2"/><line x1="3" y1="10.2" x2="21" y2="10.2"/><rect x="6" y="13.3" width="5" height="2.4" rx="0.5"/>`,
+  chevron:`<path d="M9 6l6 6-6 6"/>`,
+  back:`<path d="M15 5l-7 7 7 7"/>`,
+  camera:`<path d="M4 8h3l1.5-2.5h7L17 8h3v11H4z"/><circle cx="12" cy="13.5" r="3.2"/>`,
+  refresh:`<path d="M4 4v5h5"/><path d="M20 20v-5h-5"/><path d="M4.6 9a8 8 0 0 1 14-3.6L20 9"/><path d="M19.4 15a8 8 0 0 1-14 3.6L4 15"/>`,
+  trash:`<path d="M4 7h16"/><path d="M9 7V5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2"/><path d="M6 7l1 13a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2l1-13"/>`,
+};
+
+function svgIcon(key, extra=''){
+  return `<svg viewBox="0 0 24 24" fill="none" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" ${extra}>${ICONS[key]}</svg>`;
+}
+
+let state = { view:'home', category:null, photos:{}, loading:true };
+
+const headerEl = document.getElementById('header');
+const mainEl = document.getElementById('main');
+const toastEl = document.getElementById('toast');
+
+function showToast(msg){
+  toastEl.textContent = msg;
+  toastEl.classList.add('show');
+  setTimeout(()=>toastEl.classList.remove('show'), 1800);
+}
+
+function keyFor(catId, side){ return `id-photo:${catId}:${side}`; }
+
+/* ---------- Storage layer ----------
+   Uses the Claude artifact storage bridge (window.storage) when this page is
+   previewed inside a Claude conversation. When the file is opened directly
+   in a browser (downloaded, or added to the phone's home screen) that bridge
+   does not exist, so it falls back to IndexedDB, which is a normal browser
+   feature and keeps the photos on the device permanently. */
+const idb = {
+  _dbPromise: null,
+  open(){
+    if(this._dbPromise) return this._dbPromise;
+    this._dbPromise = new Promise((resolve, reject)=>{
+      const req = indexedDB.open('identification-app-db', 1);
+      req.onupgradeneeded = () => {
+        req.result.createObjectStore('photos', { keyPath: 'key' });
+      };
+      req.onsuccess = () => resolve(req.result);
+      req.onerror = () => reject(req.error);
+    });
+    return this._dbPromise;
+  },
+  async set(key, value){
+    const db = await this.open();
+    return new Promise((resolve, reject)=>{
+      const tx = db.transaction('photos', 'readwrite');
+      tx.objectStore('photos').put({ key, value });
+      tx.oncomplete = () => resolve(true);
+      tx.onerror = () => reject(tx.error);
+    });
+  },
+  async get(key){
+    const db = await this.open();
+    return new Promise((resolve, reject)=>{
+      const tx = db.transaction('photos', 'readonly');
+      const req = tx.objectStore('photos').get(key);
+      req.onsuccess = () => resolve(req.result ? { key, value: req.result.value } : null);
+      req.onerror = () => reject(req.error);
+    });
+  },
+  async delete(key){
+    const db = await this.open();
+    return new Promise((resolve, reject)=>{
+      const tx = db.transaction('photos', 'readwrite');
+      tx.objectStore('photos').delete(key);
+      tx.oncomplete = () => resolve(true);
+      tx.onerror = () => reject(tx.error);
+    });
+  },
+  async listKeys(prefix){
+    const db = await this.open();
+    return new Promise((resolve, reject)=>{
+      const tx = db.transaction('photos', 'readonly');
+      const req = tx.objectStore('photos').getAllKeys();
+      req.onsuccess = () => resolve((req.result || []).filter(k => k.startsWith(prefix)));
+      req.onerror = () => reject(req.error);
+    });
+  }
+};
+
+const hasBridge = () => !!(window.storage && typeof window.storage.set === 'function');
+
+const store = {
+  async set(key, value){
+    if(hasBridge()){
+      try{ const r = await window.storage.set(key, value, false); if(r) return true; }
+      catch(e){ console.warn('bridge set failed, falling back to IndexedDB', e); }
+    }
+    return idb.set(key, value);
+  },
+  async get(key){
+    if(hasBridge()){
+      try{ return await window.storage.get(key); }
+      catch(e){ /* fall through to idb */ }
+    }
+    return idb.get(key);
+  },
+  async delete(key){
+    if(hasBridge()){
+      try{ await window.storage.delete(key); }
+      catch(e){ /* ignore, still try idb */ }
+    }
+    try{ await idb.delete(key); }catch(e){ /* ignore */ }
+    return true;
+  },
+  async listKeys(prefix){
+    let keys = [];
+    if(hasBridge()){
+      try{
+        const list = await window.storage.list(prefix);
+        keys = (list && list.keys) ? list.keys : [];
+      }catch(e){ /* fall through */ }
+    }
+    try{
+      const idbKeys = await idb.listKeys(prefix);
+      keys = Array.from(new Set([...keys, ...idbKeys]));
+    }catch(e){ console.warn('idb listKeys failed', e); }
+    return keys;
+  }
+};
+
+async function loadAll(){
+  state.loading = true;
+  render();
+  try{
+    const keys = await store.listKeys('id-photo:');
+    const results = await Promise.all(keys.map(k => store.get(k).catch(()=>null)));
+    results.forEach(r=>{
+      if(r && r.value){
+        const parts = r.key.split(':'); // id-photo:cat:side
+        const cat = parts[1], side = parts[2];
+        state.photos[cat] = state.photos[cat] || {};
+        state.photos[cat][side] = r.value;
+      }
+    });
+  }catch(e){
+    console.error('load failed', e);
+  }
+  state.loading = false;
+  render();
+}
+
+function statusFor(catId){
+  const p = state.photos[catId] || {};
+  const count = (p.front?1:0) + (p.back?1:0);
+  if(count===2) return {cls:'full', text:'দুটি ছবি আপলোড হয়েছে'};
+  if(count===1) return {cls:'partial', text:'১টি ছবি আপলোড হয়েছে'};
+  return {cls:'empty', text:'কোনো ছবি নেই'};
+}
+
+function openCategory(id){
+  state.view = 'detail';
+  state.category = id;
+  render();
+}
+
+function goHome(){
+  state.view = 'home';
+  state.category = null;
+  render();
+}
+
+function compressAndRead(file){
+  return new Promise((resolve, reject)=>{
+    const reader = new FileReader();
+    reader.onerror = () => reject(new Error('পড়া যায়নি'));
+    reader.onload = () => {
+      const img = new Image();
+      img.onload = () => {
+        const maxDim = 1280;
+        let w = img.width, h = img.height;
+        if(w > maxDim || h > maxDim){
+          const scale = maxDim / Math.max(w,h);
+          w = Math.round(w*scale); h = Math.round(h*scale);
+        }
+        const canvas = document.createElement('canvas');
+        canvas.width = w; canvas.height = h;
+        const ctx = canvas.getContext('2d');
+        ctx.drawImage(img, 0, 0, w, h);
+        resolve(canvas.toDataURL('image/jpeg', 0.82));
+      };
+      img.onerror = () => reject(new Error('ছবি লোড করা যায়নি'));
+      img.src = reader.result;
+    };
+    reader.readAsDataURL(file);
+  });
+}
+
+async function handleUpload(catId, side, file){
+  if(!file) return;
+  if(!file.type || !file.type.startsWith('image/')){
+    showToast('শুধু ছবি ফাইল আপলোড করুন');
+    return;
+  }
+
+  let dataUrl;
+  try{
+    dataUrl = await compressAndRead(file);
+  }catch(e){
+    console.error('compress error', e);
+    showToast('ছবিটি প্রসেস করা যায়নি, অন্য ছবি দিয়ে চেষ্টা করুন');
+    return;
+  }
+
+  // Show the photo immediately in this session regardless of storage outcome,
+  // so the person always sees the upload succeed visually.
+  state.photos[catId] = state.photos[catId] || {};
+  state.photos[catId][side] = dataUrl;
+  render();
+
+  try{
+    const ok = await store.set(keyFor(catId, side), dataUrl);
+    if(!ok) throw new Error('store.set returned falsy');
+    showToast('ছবি সংরক্ষিত হয়েছে');
+  }catch(e){
+    console.error('storage save failed', e);
+    showToast('ছবি দেখা যাচ্ছে, তবে স্থায়ীভাবে সংরক্ষণ করা যায়নি');
+  }
+}
+
+async function handleDelete(catId, side){
+  try{
+    await store.delete(keyFor(catId, side));
+  }catch(e){
+    console.error('delete error (may not exist)', e);
+  }
+  if(state.photos[catId]) delete state.photos[catId][side];
+  render();
+  showToast('ছবি মুছে ফেলা হয়েছে');
+}
+
+let fileInput = null;
+let pendingTarget = null;
+
+function ensureFileInput(){
+  if(fileInput) return fileInput;
+  fileInput = document.createElement('input');
+  fileInput.type = 'file';
+  fileInput.accept = 'image/*';
+  fileInput.style.display = 'none';
+  fileInput.addEventListener('change', (e) => {
+    const file = e.target.files && e.target.files[0];
+    if(pendingTarget && file){
+      handleUpload(pendingTarget.catId, pendingTarget.side, file);
+    }
+    // reset so selecting the same file again still fires 'change'
+    fileInput.value = '';
+    pendingTarget = null;
+  });
+  document.body.appendChild(fileInput);
+  return fileInput;
+}
+
+function triggerFilePicker(catId, side){
+  pendingTarget = { catId, side };
+  const input = ensureFileInput();
+  input.click();
+}
+
+function renderHeader(){
+  if(state.view === 'home'){
+    headerEl.innerHTML = `
+      <div class="brand">
+        <div class="brand-mark">${svgIcon('id')}</div>
+        <div>
+          <h1>IDENTIFICATION</h1>
+          <p>আপনার সব পরিচয়পত্রের ছবি, এক জায়গায়</p>
+        </div>
+      </div>`;
+  } else {
+    const cat = CATEGORIES.find(c=>c.id===state.category);
+    headerEl.innerHTML = `
+      <div class="back-row">
+        <div class="back-btn" id="backBtn">${svgIcon('back')}</div>
+        <div class="detail-title">
+          <h2>${cat.name}</h2>
+          <p>${cat.sub}</p>
+        </div>
+      </div>`;
+    document.getElementById('backBtn').onclick = goHome;
+  }
+}
+
+function renderSideCard(catId, side, label, hint){
+  const photo = (state.photos[catId] || {})[side];
+  return `
+    <div class="side-card">
+      <h4>${label}</h4>
+      <p class="hint">${hint}</p>
+      <div class="drop ${photo?'has-photo':''}" data-cat="${catId}" data-side="${side}" data-action="${photo?'noop':'upload'}">
+        ${photo ? `
+          <img src="${photo}" alt="${label}">
+          <div class="img-actions">
+            <button data-action="replace" data-cat="${catId}" data-side="${side}" title="বদলান">${svgIcon('refresh')}</button>
+            <button data-action="delete" data-cat="${catId}" data-side="${side}" class="danger" title="মুছুন">${svgIcon('trash')}</button>
+          </div>
+        ` : `
+          <div class="drop-empty">
+            ${svgIcon('camera')}
+            <span>ছবি আপলোড করতে ট্যাপ করুন</span>
+          </div>
+        `}
+      </div>
+    </div>`;
+}
+
+function renderMain(){
+  if(state.loading){
+    mainEl.innerHTML = `<div class="loading-row"><span class="spinner"></span> লোড হচ্ছে...</div>`;
+    return;
+  }
+
+  if(state.view === 'home'){
+    mainEl.innerHTML = `
+      <p class="section-label">একটি ক্যাটাগরি বাছাই করুন</p>
+      <div class="menu">
+        ${CATEGORIES.map(c=>{
+          const st = statusFor(c.id);
+          return `
+          <div class="menu-item" data-cat="${c.id}">
+            <div class="menu-icon">${svgIcon(c.icon)}</div>
+            <div class="menu-body">
+              <h3>${c.name}</h3>
+              <span class="status-pill"><span class="dot ${st.cls}"></span>${st.text}</span>
+            </div>
+            ${svgIcon('chevron', 'class="chevron"')}
+          </div>`;
+        }).join('')}
+      </div>`;
+    mainEl.querySelectorAll('.menu-item').forEach(el=>{
+      el.onclick = () => openCategory(el.dataset.cat);
+    });
+  } else {
+    const catId = state.category;
+    mainEl.innerHTML =
+      renderSideCard(catId, 'front', 'সামনের অংশ (Front Side)', 'কার্ডের সামনের দিক স্পষ্টভাবে দেখা যাচ্ছে এমন ছবি দিন') +
+      renderSideCard(catId, 'back', 'পেছনের অংশ (Back Side)', 'কার্ডের পেছনের দিক স্পষ্টভাবে দেখা যাচ্ছে এমন ছবি দিন');
+
+    mainEl.querySelectorAll('[data-action="upload"]').forEach(el=>{
+      el.onclick = () => triggerFilePicker(el.dataset.cat, el.dataset.side);
+    });
+    mainEl.querySelectorAll('[data-action="replace"]').forEach(el=>{
+      el.onclick = (e) => { e.stopPropagation(); triggerFilePicker(el.dataset.cat, el.dataset.side); };
+    });
+    mainEl.querySelectorAll('[data-action="delete"]').forEach(el=>{
+      el.onclick = (e) => { e.stopPropagation(); handleDelete(el.dataset.cat, el.dataset.side); };
+    });
+  }
+}
+
+function render(){
+  renderHeader();
+  renderMain();
+}
+
+loadAll();
+
+if('serviceWorker' in navigator){
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('./service-worker.js').catch(e => console.warn('SW register failed', e));
+  });
+}
+</script>
+</body>
+</html>
